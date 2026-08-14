@@ -91,6 +91,20 @@ ai-export-extension/
 
 首次安装享受 5 次免费导出，之后需购买授权码解锁无限使用。
 
+### Gumroad 产品设置（License Keys → Receipt）
+
+买家付款后会在收据页看到以下内容，引导其获取 License Key：
+
+- **Button text**: `Get Your License Key`
+- **Custom message**:
+
+```text
+Thanks for purchasing AI Export Assistant! Click the button above to view your license key, then paste it into the extension's settings page to unlock unlimited exports.
+```
+
+- 购买链接: https://bksy555.gumroad.com/l/aiexpor
+- Product ID: `AsGOrOJwjazTMpRSf3I4JA==`
+
 ## 开发
 
 ```bash

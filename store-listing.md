@@ -87,6 +87,18 @@ AI Export Assistant 让你一键保存 ChatGPT、Claude、DeepSeek、Gemini 等 
 - **上传包**: `dist/ai-export-assistant-v1.1.0.zip`（约 27KB，18 个文件）
 - 重新打包: `bash scripts/package.sh`
 
+## Gumroad 收款设置留档
+
+- **购买链接**: https://bksy555.gumroad.com/l/aiexpor
+- **Product ID**: `AsGOrOJwjazTMpRSf3I4JA==`
+- **License Keys → Receipt**（买家付款后收据页）:
+  - Button text: `Get Your License Key`
+  - Custom message:
+
+```text
+Thanks for purchasing AI Export Assistant! Click the button above to view your license key, then paste it into the extension's settings page to unlock unlimited exports.
+```
+
 ## 小图标
 
 - 16x16: icons/icon16.png
