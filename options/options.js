@@ -11,7 +11,7 @@
   const usageInfo = document.getElementById('usage-info');
   const buyBtn = document.getElementById('buy-btn');
 
-  const PURCHASE_URL = 'https://gumroad.com/l/aiexpor';
+  const PURCHASE_URL = 'https://bksy555.gumroad.com/l/aiexpor';
 
   // ---- Init ----
   document.addEventListener('DOMContentLoaded', async () => {
