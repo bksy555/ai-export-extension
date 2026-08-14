@@ -25,7 +25,7 @@ All rights, title, and interest in the software remain with the developer. The s
 
 ## 5. Privacy
 
-The software processes all data locally in your browser. No conversation data is sent to any server. The only network request is for license key verification via Lemon Squeezy API.
+The software processes all data locally in your browser. No conversation data is sent to any server. The only network request is for license key verification via Gumroad's public license API.
 
 ## 6. Disclaimer
 

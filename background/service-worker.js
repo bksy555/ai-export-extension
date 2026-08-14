@@ -66,41 +66,52 @@ chrome.commands.onCommand.addListener(async (command) => {
 });
 
 // ---- License verification ----
+// Uses Gumroad's public License Verify API (no seller token needed).
+// Docs: https://gumroad.com/api#licenses
 async function verifyLicense(key) {
-  // Lemon Squeezy License Key verification
-  // Docs: https://docs.lemonsqueezy.com/api/license-instances
-  const productId = 'YOUR_PRODUCT_ID'; // TODO: Replace with actual product ID
+  const productId = 'YOUR_GUMROAD_PRODUCT_ID'; // TODO: Replace with your Gumroad product ID
+  const verifyUrl = 'https://api.gumroad.com/v2/licenses/verify';
+
+  if (!productId || productId === 'YOUR_GUMROAD_PRODUCT_ID') {
+    return { success: false, error: 'Product not configured. Please contact support.' };
+  }
 
   try {
-    const response = await fetch('https://api.lemonsqueezy.com/v1/licenses/activate', {
+    const body = new URLSearchParams();
+    body.append('product_id', productId);
+    body.append('license_key', key.trim());
+
+    const response = await fetch(verifyUrl, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        license_key: key,
-        instance_name: `browser-${Date.now()}`,
-        meta: {
-          user_agent: navigator.userAgent
-        }
-      })
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: body.toString()
     });
+
+    if (response.status === 404) {
+      return { success: false, error: 'Invalid license key.' };
+    }
+    if (!response.ok) {
+      return { success: false, error: `Gumroad error (HTTP ${response.status}). Please try again.` };
+    }
 
     const data = await response.json();
 
-    if (data.activated) {
+    if (data && data.success) {
       await chrome.storage.local.set({
-        licenseKey: key,
+        licenseKey: key.trim(),
         licenseVerified: true,
-        licenseInstanceId: data.instance?.id || null,
-        licenseExpiresAt: data.expires_at || null
+        licenseEmail: data.purchase?.email || null,
+        licenseProductName: data.purchase?.product_name || null,
+        licenseVerifiedAt: Date.now()
       });
       return { success: true };
     } else {
-      return { success: false, error: data.error || 'Invalid license key.' };
+      return { success: false, error: data.message || 'Invalid license key.' };
     }
   } catch (err) {
     // Offline fallback: check cached license
     const stored = await chrome.storage.local.get(['licenseKey']);
-    if (stored.licenseKey === key) {
+    if (stored.licenseKey && stored.licenseKey === key.trim()) {
       return { success: true, offline: true };
     }
     return { success: false, error: 'Network error. Please check your connection.' };
@@ -108,26 +119,15 @@ async function verifyLicense(key) {
 }
 
 // ---- Deactivate license ----
+// Gumroad licenses stay valid server-side; deactivation just clears
+// the stored key on this device.
 async function deactivateLicense() {
-  const stored = await chrome.storage.local.get(['licenseKey', 'licenseInstanceId']);
-  if (stored.licenseKey && stored.licenseInstanceId) {
-    try {
-      await fetch('https://api.lemonsqueezy.com/v1/licenses/deactivate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          license_key: stored.licenseKey,
-          instance_id: stored.licenseInstanceId
-        })
-      });
-    } catch (e) {
-      // Ignore network errors
-    }
-  }
   await chrome.storage.local.set({
     licenseKey: null,
     licenseVerified: false,
-    licenseInstanceId: null
+    licenseEmail: null,
+    licenseProductName: null,
+    licenseVerifiedAt: null
   });
 }
 
