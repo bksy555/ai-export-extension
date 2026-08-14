@@ -11,10 +11,7 @@
   const usageInfo = document.getElementById('usage-info');
   const buyBtn = document.getElementById('buy-btn');
 
-  // TODO: Replace with your Gumroad product URL
-  // Find it in your Gumroad dashboard → product → "Share" → the link looks like:
-  //   https://gumroad.com/l/XXXXXX  (or your custom domain)
-  const PURCHASE_URL = 'https://gumroad.com/l/YOUR_PRODUCT_PERMALINK';
+  const PURCHASE_URL = 'https://gumroad.com/l/aiexpor';
 
   // ---- Init ----
   document.addEventListener('DOMContentLoaded', async () => {

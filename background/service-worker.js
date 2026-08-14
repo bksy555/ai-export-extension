@@ -69,12 +69,8 @@ chrome.commands.onCommand.addListener(async (command) => {
 // Uses Gumroad's public License Verify API (no seller token needed).
 // Docs: https://gumroad.com/api#licenses
 async function verifyLicense(key) {
-  const productId = 'YOUR_GUMROAD_PRODUCT_ID'; // TODO: Replace with your Gumroad product ID
+  const productId = 'aiexpor'; // Gumroad product ID
   const verifyUrl = 'https://api.gumroad.com/v2/licenses/verify';
-
-  if (!productId || productId === 'YOUR_GUMROAD_PRODUCT_ID') {
-    return { success: false, error: 'Product not configured. Please contact support.' };
-  }
 
   try {
     const body = new URLSearchParams();
