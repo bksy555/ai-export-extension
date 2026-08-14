@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Export Assistant — 一键导出 AI 对话</title>
+<meta name="description" content="一键导出 ChatGPT、Claude、DeepSeek、Gemini 等 10+ AI 平台的对话记录为 Markdown、Word、PDF。">
+<meta property="og:title" content="AI Export Assistant">
+<meta property="og:description" content="一键导出 10+ AI 平台的对话记录">
+<meta property="og:type" content="website">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  color: #1d1d1f;
+  background: #fff;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---- Nav ---- */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  padding: 0 24px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+nav .logo { font-size: 18px; font-weight: 700; color: #1d1d1f; }
+nav .logo span { background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+nav a { color: #6e6e73; text-decoration: none; font-size: 14px; margin-left: 24px; transition: color 0.2s; }
+nav a:hover { color: #1d1d1f; }
+nav .btn-nav { background: #0071e3; color: #fff !important; padding: 6px 18px; border-radius: 20px; font-weight: 500; }
+nav .btn-nav:hover { background: #0062c4; }
+
+/* ---- Hero ---- */
+.hero {
+  padding: 140px 24px 80px;
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+}
+.hero .badge {
+  display: inline-block;
+  background: #f0f0f0;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  color: #6e6e73;
+  margin-bottom: 20px;
+}
+.hero h1 {
+  font-size: clamp(36px, 5vw, 60px);
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+.hero h1 .gradient { background: linear-gradient(135deg, #667eea, #764ba2, #f093fb); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero p {
+  font-size: clamp(16px, 2vw, 20px);
+  color: #6e6e73;
+  max-width: 600px;
+  margin: 0 auto 32px;
+}
+.hero .cta-group { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.hero .cta-primary {
+  background: #0071e3; color: #fff; border: none;
+  padding: 14px 36px; border-radius: 30px; font-size: 16px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; text-decoration: none;
+}
+.hero .cta-primary:hover { background: #0062c4; transform: translateY(-1px); box-shadow: 0 4px 20px rgba(0,113,227,0.3); }
+.hero .cta-secondary {
+  background: #f5f5f7; color: #1d1d1f; border: 1px solid #d2d2d7;
+  padding: 14px 36px; border-radius: 30px; font-size: 16px; font-weight: 500;
+  cursor: pointer; transition: all 0.2s; text-decoration: none;
+}
+.hero .cta-secondary:hover { background: #e8e8ed; }
+
+/* ---- Demo / Screenshot ---- */
+.demo {
+  max-width: 900px;
+  margin: 0 auto 80px;
+  padding: 0 24px;
+  text-align: center;
+}
+.demo .screenshot-container {
+  background: #f5f5f7;
+  border-radius: 20px;
+  padding: 40px 20px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #e8e8ed;
+}
+.demo .screenshot {
+  max-width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.1);
+}
+.demo .mockup {
+  display: inline-block;
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.1);
+  text-align: left;
+  max-width: 380px;
+  width: 100%;
+}
+.mockup .popup-header { text-align: center; padding-bottom: 12px; border-bottom: 1px solid #f0f0f0; margin-bottom: 12px; font-weight: 600; }
+.mockup .popup-msg { padding: 6px 0; font-size: 12px; color: #6e6e73; border-bottom: 1px solid #f5f5f7; }
+.mockup .popup-msg:last-child { border-bottom: none; }
+.mockup .popup-role { font-weight: 600; color: #0071e3; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+.mockup .popup-content { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mockup .popup-btns { display: flex; gap: 4px; margin-top: 12px; }
+.mockup .popup-btns span { flex: 1; text-align: center; padding: 6px 4px; border-radius: 6px; background: #f5f5f7; font-size: 11px; color: #1d1d1f; }
+.mockup .popup-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding: 6px 10px; background: #f5f5f7; border-radius: 8px; font-size: 11px; color: #6e6e73; }
+
+/* ---- Features ---- */
+.features {
+  max-width: 1000px;
+  margin: 0 auto 80px;
+  padding: 0 24px;
+}
+.features h2 {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 48px;
+}
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+.feature-card {
+  background: #fafafa;
+  border-radius: 16px;
+  padding: 28px 24px;
+  transition: all 0.2s;
+  border: 1px solid #f0f0f0;
+}
+.feature-card:hover { background: #f5f5f7; transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+.feature-card .icon { font-size: 32px; margin-bottom: 12px; }
+.feature-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+.feature-card p { font-size: 14px; color: #6e6e73; line-height: 1.5; }
+
+/* ---- Platforms ---- */
+.platforms {
+  max-width: 800px;
+  margin: 0 auto 80px;
+  padding: 0 24px;
+  text-align: center;
+}
+.platforms h2 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.platforms .subtitle { color: #6e6e73; margin-bottom: 32px; font-size: 16px; }
+.platforms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+}
+.platform-item {
+  background: #fafafa;
+  border: 1px solid #f0f0f0;
+  border-radius: 12px;
+  padding: 16px 8px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.platform-item:hover { background: #f0f0f0; border-color: #d2d2d7; }
+.platform-item .emoji { font-size: 24px; display: block; margin-bottom: 6px; }
+
+/* ---- Pricing ---- */
+.pricing {
+  max-width: 700px;
+  margin: 0 auto 80px;
+  padding: 0 24px;
+  text-align: center;
+}
+.pricing h2 { font-size: 32px; font-weight: 700; margin-bottom: 12px; }
+.pricing .subtitle { color: #6e6e73; margin-bottom: 32px; font-size: 16px; }
+.pricing-cards {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.pricing-card {
+  flex: 1;
+  min-width: 260px;
+  max-width: 340px;
+  border-radius: 20px;
+  padding: 32px 24px;
+  text-align: center;
+  border: 1px solid #e8e8ed;
+  transition: all 0.2s;
+}
+.pricing-card:hover { box-shadow: 0 8px 40px rgba(0,0,0,0.08); }
+.pricing-card.featured {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  border-color: transparent;
+}
+.pricing-card.featured .price { color: #fff; }
+.pricing-card.featured .perks li { color: rgba(255,255,255,0.85); }
+.pricing-card.featured .perks li::before { color: #fff; }
+.pricing-card h3 { font-size: 20px; font-weight: 600; margin-bottom: 8px; }
+.pricing-card .price { font-size: 40px; font-weight: 800; color: #1d1d1f; margin-bottom: 4px; }
+.pricing-card .price small { font-size: 16px; font-weight: 400; }
+.pricing-card .period { color: #6e6e73; font-size: 14px; margin-bottom: 20px; }
+.pricing-card .perks { list-style: none; margin-bottom: 24px; }
+.pricing-card .perks li { padding: 6px 0; font-size: 14px; color: #6e6e73; }
+.pricing-card .perks li::before { content: '✓ '; color: #34c759; font-weight: 700; }
+.pricing-card .btn-buy {
+  display: inline-block;
+  padding: 12px 32px;
+  border-radius: 30px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.pricing-card .btn-buy-outline { border: 1px solid #d2d2d7; color: #1d1d1f; background: #fff; }
+.pricing-card .btn-buy-outline:hover { background: #f5f5f7; }
+.pricing-card.featured .btn-buy { background: #fff; color: #667eea; }
+.pricing-card.featured .btn-buy:hover { background: #f0f0f0; transform: translateY(-1px); }
+
+/* ---- How it works ---- */
+.how-it-works {
+  max-width: 800px;
+  margin: 0 auto 80px;
+  padding: 0 24px;
+}
+.how-it-works h2 { text-align: center; font-size: 32px; font-weight: 700; margin-bottom: 48px; }
+.steps { display: flex; flex-direction: column; gap: 24px; }
+.step {
+  display: flex; gap: 20px; align-items: flex-start;
+  background: #fafafa; border-radius: 16px; padding: 24px;
+  border: 1px solid #f0f0f0;
+}
+.step-num {
+  flex-shrink: 0;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: #0071e3;
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 16px;
+}
+.step-body h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+.step-body p { font-size: 14px; color: #6e6e73; }
+
+/* ---- FAQ ---- */
+.faq {
+  max-width: 700px;
+  margin: 0 auto 80px;
+  padding: 0 24px;
+}
+.faq h2 { text-align: center; font-size: 32px; font-weight: 700; margin-bottom: 32px; }
+.faq-item { border-bottom: 1px solid #f0f0f0; padding: 16px 0; }
+.faq-item h3 { font-size: 16px; font-weight: 500; cursor: pointer; display: flex; justify-content: space-between; }
+.faq-item h3::after { content: '+'; font-size: 20px; color: #6e6e73; }
+.faq-item p { font-size: 14px; color: #6e6e73; margin-top: 8px; display: none; }
+.faq-item.active h3::after { content: '−'; }
+.faq-item.active p { display: block; }
+
+/* ---- Footer ---- */
+footer {
+  text-align: center;
+  padding: 40px 24px;
+  border-top: 1px solid #f0f0f0;
+  color: #6e6e73;
+  font-size: 13px;
+}
+footer a { color: #6e6e73; text-decoration: none; }
+footer a:hover { color: #1d1d1f; }
+
+/* ---- Responsive ---- */
+@media (max-width: 640px) {
+  nav a { margin-left: 12px; font-size: 13px; }
+  nav .btn-nav { padding: 4px 12px; font-size: 12px; }
+  .hero { padding: 100px 16px 48px; }
+  .step { flex-direction: column; }
+  .step-num { width: 32px; height: 32px; font-size: 14px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo"><span>AI Export</span> Assistant</div>
+  <div>
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#how">How it Works</a>
+    <a href="#faq">FAQ</a>
+    <a href="#" class="btn-nav" onclick="alert('Coming soon! Download the extension from GitHub.')">Install</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="badge">🚀 v1.0 — 10+ AI Platforms Supported</div>
+  <h1>Export AI Conversations<br><span class="gradient">in One Click</span></h1>
+  <p>ChatGPT, Claude, DeepSeek, Gemini, and more — save your AI conversations as Markdown, Word, or PDF. No more copy-paste.</p>
+  <div class="cta-group">
+    <a href="#pricing" class="cta-primary">🔓 Get Full Access — $9.9</a>
+    <a href="#how" class="cta-secondary">📖 How It Works</a>
+  </div>
+</section>
+
+<!-- Demo -->
+<section class="demo">
+  <div class="screenshot-container">
+    <div class="mockup">
+      <div class="popup-header">📄 AI Export Assistant</div>
+      <div class="popup-msg">
+        <div class="popup-role">You</div>
+        <div class="popup-content">Explain quantum computing in simple terms...</div>
+      </div>
+      <div class="popup-msg">
+        <div class="popup-role">AI</div>
+        <div class="popup-content">Quantum computing uses qubits instead of bits...</div>
+      </div>
+      <div class="popup-msg">
+        <div class="popup-role">You</div>
+        <div class="popup-content">Give me a code example</div>
+      </div>
+      <div class="popup-msg">
+        <div class="popup-role">AI</div>
+        <div class="popup-content">Here's a simple quantum circuit in Python...</div>
+      </div>
+      <div class="popup-msg" style="border-bottom:none;">
+        <div class="popup-role" style="color:#6e6e73;">+ 12 more messages</div>
+      </div>
+      <div class="popup-btns">
+        <span>📝 Markdown</span>
+        <span>📄 Word</span>
+        <span>📕 PDF</span>
+      </div>
+      <div class="popup-bar">
+        <span>⚡ Free: 5 exports remaining</span>
+        <span style="color:#0071e3;font-weight:500;">Unlock Full →</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="features" id="features">
+  <h2>Why AI Export Assistant?</h2>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="icon">🎯</div>
+      <h3>One-Click Export</h3>
+      <p>Click the browser icon, preview your conversation, and export. Takes 3 seconds.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">📝</div>
+      <h3>3 Export Formats</h3>
+      <p>Markdown for developers, Word for business, PDF for archiving. All in one tool.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🌐</div>
+      <h3>10+ AI Platforms</h3>
+      <p>ChatGPT, Claude, DeepSeek, Gemini, 通义千问, Kimi, 豆包, 文心一言, Perplexity & more.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">✋</div>
+      <h3>Manual Selection Mode</h3>
+      <p>Auto-detection failed? No problem. Click to select conversation elements manually.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🔒</div>
+      <h3>Privacy First</h3>
+      <p>All data stays on your device. No servers, no tracking, no cloud uploads.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🔑</div>
+      <h3>Lifetime License</h3>
+      <p>Pay once, use forever. Includes all future updates and platform additions.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Platforms -->
+<section class="platforms">
+  <h2>Supported Platforms</h2>
+  <p class="subtitle">Works with all major AI chat platforms</p>
+  <div class="platforms-grid">
+    <div class="platform-item"><span class="emoji">🤖</span>ChatGPT</div>
+    <div class="platform-item"><span class="emoji">🟣</span>Claude</div>
+    <div class="platform-item"><span class="emoji">🔵</span>DeepSeek</div>
+    <div class="platform-item"><span class="emoji">✨</span>Gemini</div>
+    <div class="platform-item"><span class="emoji">🌐</span>通义千问</div>
+    <div class="platform-item"><span class="emoji">📕</span>Kimi</div>
+    <div class="platform-item"><span class="emoji">🟢</span>豆包</div>
+    <div class="platform-item"><span class="emoji">📖</span>文心一言</div>
+    <div class="platform-item"><span class="emoji">🔍</span>Perplexity</div>
+    <div class="platform-item"><span class="emoji">➕</span>More coming</div>
+  </div>
+</section>
+
+<!-- How it Works -->
+<section class="how-it-works" id="how">
+  <h2>How It Works</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>Install the Extension</h3>
+        <p>Add AI Export Assistant to Chrome. It's a lightweight extension that only activates when you click it.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>Open Any AI Conversation</h3>
+        <p>Go to ChatGPT, Claude, or any supported platform. Start a conversation or open an existing one.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>Click & Export</h3>
+        <p>Click the extension icon, preview your conversation, choose Markdown / Word / PDF — done.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h3>Use Anywhere</h3>
+        <p>Share the exported file with colleagues, save it to your notes, or publish it online.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section class="pricing" id="pricing">
+  <h2>Simple, Fair Pricing</h2>
+  <p class="subtitle">Try before you buy. No subscription. No hidden fees.</p>
+  <div class="pricing-cards">
+    <div class="pricing-card">
+      <h3>🚀 Free</h3>
+      <div class="price">$0 <small>USD</small></div>
+      <div class="period">forever</div>
+      <ul class="perks">
+        <li>5 exports</li>
+        <li>All formats (Markdown / Word / PDF)</li>
+        <li>All platforms</li>
+        <li>Manual selection mode</li>
+      </ul>
+      <a href="#" class="btn-buy btn-buy-outline" onclick="alert('Install from GitHub (developer mode) or wait for Chrome Web Store.')">Install Free</a>
+    </div>
+    <div class="pricing-card featured">
+      <h3>🔓 Full Access</h3>
+      <div class="price">$9.9 <small>USD</small></div>
+      <div class="period">one-time payment</div>
+      <ul class="perks">
+        <li>Unlimited exports</li>
+        <li>All formats (Markdown / Word / PDF)</li>
+        <li>All platforms</li>
+        <li>Manual selection mode</li>
+        <li>⚠️ Priority support</li>
+        <li>🚀 Lifetime updates</li>
+      </ul>
+      <a href="#" class="btn-buy" onclick="alert('Coming soon! Lemon Squeezy checkout integration pending.')">Buy Now →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <h2>Frequently Asked Questions</h2>
+  <div class="faq-item">
+    <h3>What happens after 5 free exports?</h3>
+    <p>The extension will show a prompt to unlock the full version. Purchase a license key ($9.9 one-time) to get unlimited exports.</p>
+  </div>
+  <div class="faq-item">
+    <h3>Does it work with all AI platforms?</h3>
+    <p>It supports 10+ platforms including ChatGPT, Claude, DeepSeek, Gemini, 通义千问, Kimi, 豆包, 文心一言, and Perplexity. If auto-detection fails, use the manual selection mode to pick elements on the page.</p>
+  </div>
+  <div class="faq-item">
+    <h3>Is my data sent to any server?</h3>
+    <p>No. All processing happens locally in your browser. No data is uploaded, shared, or tracked. The only network request is for license key verification (optional).</p>
+  </div>
+  <div class="faq-item">
+    <h3>What formats can I export to?</h3>
+    <p>Markdown (.md), Word (.doc), and PDF (.html file that can be printed as PDF). More formats coming soon.</p>
+  </div>
+  <div class="faq-item">
+    <h3>How do I install the extension?</h3>
+    <p>Currently available via GitHub in developer mode. Chrome Web Store listing coming soon. Download the repo, open chrome://extensions, enable Developer Mode, and load the unpacked extension.</p>
+  </div>
+  <div class="faq-item">
+    <h3>Can I get a refund?</h3>
+    <p>Yes! 30-day money-back guarantee. If you're not satisfied, contact us for a full refund.</p>
+  </div>
+</section>
+
+<footer>
+  <p>AI Export Assistant &copy; 2026 &mdash; Built with ❤️</p>
+  <p style="margin-top:4px;"><a href="https://github.com">GitHub</a> &middot; <a href="mailto:hello@example.com">Contact</a></p>
+</footer>
+
+<script>
+// FAQ accordion
+document.querySelectorAll('.faq-item h3').forEach(el => {
+  el.addEventListener('click', () => {
+    el.parentElement.classList.toggle('active');
+  });
+});
+</script>
+</body>
+</html>

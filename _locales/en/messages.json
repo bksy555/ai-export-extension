@@ -1,0 +1,56 @@
+{
+  "appName": {
+    "message": "AI Export Assistant"
+  },
+  "appDesc": {
+    "message": "Export ChatGPT, Claude, DeepSeek, Gemini conversations to Word, PDF, Markdown with one click."
+  },
+  "popupLoading": {
+    "message": "Detecting conversation..."
+  },
+  "popupError": {
+    "message": "Unable to detect the conversation."
+  },
+  "popupUnsupported": {
+    "message": "Please open ChatGPT, Claude, DeepSeek, or Gemini."
+  },
+  "popupRefresh": {
+    "message": "Please refresh the page and try again."
+  },
+  "popupMessages": {
+    "message": "messages detected"
+  },
+  "popupCopyAll": {
+    "message": "Copy All"
+  },
+  "popupFreeRemaining": {
+    "message": "Free: $1/$2 exports remaining"
+  },
+  "popupUnlock": {
+    "message": "Unlock Full ($9.9) →"
+  },
+  "popupExported": {
+    "message": "Exported successfully!"
+  },
+  "popupLimitReached": {
+    "message": "Free limit reached. Unlock full version to export more."
+  },
+  "optionsTitle": {
+    "message": "Settings"
+  },
+  "optionsLicenseStatus": {
+    "message": "Checking license..."
+  },
+  "optionsActivated": {
+    "message": "Activated — Full version"
+  },
+  "optionsFree": {
+    "message": "Free version — 5 exports limit"
+  },
+  "optionsUsage": {
+    "message": "Exports used: $1 / $2"
+  },
+  "optionsPurchase": {
+    "message": "Purchase License"
+  }
+}

@@ -1,0 +1,178 @@
+// AI Export Assistant - Background Service Worker
+
+// ---- Install / Update ----
+chrome.runtime.onInstalled.addListener((details) => {
+  if (details.reason === 'install') {
+    // Initialize storage
+    chrome.storage.local.set({
+      exportCount: 0,
+      licenseKey: null,
+      licenseVerified: false,
+      installDate: Date.now(),
+      showWelcome: true
+    });
+    console.log('[AI Export] Installed. Welcome!');
+    // Open welcome page
+    chrome.tabs.create({ url: 'welcome/welcome.html' });
+  } else if (details.reason === 'update') {
+    console.log('[AI Export] Updated to', chrome.runtime.getManifest().version);
+  }
+});
+
+// ---- Keyboard shortcuts ----
+chrome.commands.onCommand.addListener(async (command) => {
+  console.log('[AI Export] Command:', command);
+  if (command === 'export-markdown') {
+    // Quick export: find active tab, extract, download
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    if (!tab) return;
+    try {
+      await chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        files: ['content/content.js']
+      });
+      // Give it a moment, then inject quick-export
+      setTimeout(async () => {
+        await chrome.scripting.executeScript({
+          target: { tabId: tab.id },
+          func: (platform) => {
+            // Quick export: extract and download
+            if (typeof chrome !== 'undefined' && chrome.runtime?.sendMessage) {
+              chrome.runtime.sendMessage({ action: 'extract-messages' }, (response) => {
+                if (response?.success) {
+                  // Create markdown
+                  let md = '# AI Conversation Export\n\n';
+                  response.messages.forEach(m => {
+                    md += `### ${m.role === 'user' ? 'You' : 'AI'}\n\n${m.content}\n\n---\n\n`;
+                  });
+                  // Download
+                  const blob = new Blob([md], { type: 'text/markdown' });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement('a');
+                  a.href = url;
+                  a.download = `ai-conversation-${Date.now()}.md`;
+                  a.click();
+                  URL.revokeObjectURL(url);
+                }
+              });
+            }
+          }
+        });
+      }, 500);
+    } catch (e) {
+      console.warn('[AI Export] Quick export failed:', e);
+    }
+  }
+});
+
+// ---- License verification ----
+async function verifyLicense(key) {
+  // Lemon Squeezy License Key verification
+  // Docs: https://docs.lemonsqueezy.com/api/license-instances
+  const productId = 'YOUR_PRODUCT_ID'; // TODO: Replace with actual product ID
+
+  try {
+    const response = await fetch('https://api.lemonsqueezy.com/v1/licenses/activate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        license_key: key,
+        instance_name: `browser-${Date.now()}`,
+        meta: {
+          user_agent: navigator.userAgent
+        }
+      })
+    });
+
+    const data = await response.json();
+
+    if (data.activated) {
+      await chrome.storage.local.set({
+        licenseKey: key,
+        licenseVerified: true,
+        licenseInstanceId: data.instance?.id || null,
+        licenseExpiresAt: data.expires_at || null
+      });
+      return { success: true };
+    } else {
+      return { success: false, error: data.error || 'Invalid license key.' };
+    }
+  } catch (err) {
+    // Offline fallback: check cached license
+    const stored = await chrome.storage.local.get(['licenseKey']);
+    if (stored.licenseKey === key) {
+      return { success: true, offline: true };
+    }
+    return { success: false, error: 'Network error. Please check your connection.' };
+  }
+}
+
+// ---- Deactivate license ----
+async function deactivateLicense() {
+  const stored = await chrome.storage.local.get(['licenseKey', 'licenseInstanceId']);
+  if (stored.licenseKey && stored.licenseInstanceId) {
+    try {
+      await fetch('https://api.lemonsqueezy.com/v1/licenses/deactivate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          license_key: stored.licenseKey,
+          instance_id: stored.licenseInstanceId
+        })
+      });
+    } catch (e) {
+      // Ignore network errors
+    }
+  }
+  await chrome.storage.local.set({
+    licenseKey: null,
+    licenseVerified: false,
+    licenseInstanceId: null
+  });
+}
+
+// ---- Message handlers ----
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  switch (request.action) {
+    case 'verify-license':
+      verifyLicense(request.licenseKey).then(sendResponse);
+      return true; // Keep channel open
+
+    case 'deactivate-license':
+      deactivateLicense().then(sendResponse);
+      return true;
+
+    case 'get-license-status':
+      chrome.storage.local.get(['licenseKey', 'licenseVerified', 'exportCount']).then((result) => {
+        sendResponse({
+          licensed: !!result.licenseKey && result.licenseVerified,
+          exportCount: result.exportCount || 0
+        });
+      });
+      return true;
+
+    case 'manual-selection-result':
+      // Redirect to popup if open, otherwise open a new tab
+      console.log('[AI Export] Manual selection finished:', request.messages?.length, 'messages');
+      // Store in local so popup can pick it up
+      chrome.storage.local.set({
+        manualSelection: {
+          messages: request.messages,
+          platform: request.platform,
+          timestamp: Date.now()
+        }
+      });
+      sendResponse({ success: true });
+      return true;
+
+    default:
+      sendResponse({ error: 'Unknown action' });
+  }
+});
+
+// Listen for when popup re-opens after manual selection
+chrome.storage.onChanged.addListener((changes, area) => {
+  if (area === 'local' && changes.manualSelection) {
+    console.log('[AI Export] Manual selection data available');
+  }
+});

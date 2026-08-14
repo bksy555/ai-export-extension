@@ -1,0 +1,56 @@
+{
+  "appName": {
+    "message": "AI 对话导出助手"
+  },
+  "appDesc": {
+    "message": "一键将 ChatGPT、Claude、DeepSeek、Gemini 对话导出为 Word、PDF、Markdown 格式"
+  },
+  "popupLoading": {
+    "message": "正在检测对话..."
+  },
+  "popupError": {
+    "message": "无法检测到对话内容。"
+  },
+  "popupUnsupported": {
+    "message": "请打开 ChatGPT、Claude、DeepSeek 或 Gemini 页面。"
+  },
+  "popupRefresh": {
+    "message": "请刷新页面后重试。"
+  },
+  "popupMessages": {
+    "message": "条消息已检测"
+  },
+  "popupCopyAll": {
+    "message": "复制全部"
+  },
+  "popupFreeRemaining": {
+    "message": "免费：剩余 $1/$2 次导出"
+  },
+  "popupUnlock": {
+    "message": "解锁完整版 ($9.9) →"
+  },
+  "popupExported": {
+    "message": "导出成功！"
+  },
+  "popupLimitReached": {
+    "message": "免费次数已用完，解锁完整版以继续导出。"
+  },
+  "optionsTitle": {
+    "message": "设置"
+  },
+  "optionsLicenseStatus": {
+    "message": "正在检查授权..."
+  },
+  "optionsActivated": {
+    "message": "已激活 — 完整版"
+  },
+  "optionsFree": {
+    "message": "免费版 — 5 次导出限制"
+  },
+  "optionsUsage": {
+    "message": "已导出：$1 / $2 次"
+  },
+  "optionsPurchase": {
+    "message": "购买授权"
+  }
+}

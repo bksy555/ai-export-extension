@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Export Assistant - Settings</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    background: #f5f5f7;
+    color: #1d1d1f;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+  }
+  .container {
+    max-width: 520px;
+    width: 100%;
+  }
+  h1 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .subtitle {
+    color: #6e6e73;
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  .card h2 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    font-size: 14px;
+  }
+  .status-licensed {
+    background: #e8f5e9;
+    color: #2e7d32;
+  }
+  .status-trial {
+    background: #fff3e0;
+    color: #e65100;
+  }
+  .status-inactive {
+    background: #fce4ec;
+    color: #c62828;
+  }
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: #6e6e73;
+  }
+  input[type="text"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d2d2d7;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  input[type="text"]:focus {
+    border-color: #0071e3;
+    box-shadow: 0 0 0 3px rgba(0,113,227,0.15);
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-primary {
+    background: #0071e3;
+    color: #fff;
+  }
+  .btn-primary:hover { background: #0062c4; }
+  .btn-secondary {
+    background: #f0f0f0;
+    color: #1d1d1f;
+  }
+  .btn-secondary:hover { background: #e0e0e0; }
+  .btn-danger {
+    background: #ff3b30;
+    color: #fff;
+  }
+  .btn-danger:hover { background: #d32f2f; }
+  .btn-group {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  .msg {
+    margin-top: 8px;
+    font-size: 13px;
+    padding: 8px 12px;
+    border-radius: 6px;
+  }
+  .msg-success { background: #e8f5e9; color: #2e7d32; }
+  .msg-error { background: #fce4ec; color: #c62828; }
+  .msg-info { background: #e3f2fd; color: #1565c0; }
+  .hidden { display: none; }
+  .pricing {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  .pricing h2 { font-size: 28px; margin-bottom: 4px; }
+  .pricing .price { font-size: 36px; font-weight: 700; margin: 8px 0; }
+  .pricing .price small { font-size: 16px; font-weight: 400; }
+  .pricing ul { list-style: none; margin: 12px 0; font-size: 14px; }
+  .pricing ul li { margin: 4px 0; }
+  .pricing .btn { background: #fff; color: #667eea; font-weight: 600; }
+  .pricing .btn:hover { background: #f0f0f0; }
+  .footer { text-align: center; font-size: 12px; color: #6e6e73; margin-top: 16px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🔑 AI Export Assistant</h1>
+  <p class="subtitle">License & Settings</p>
+
+  <!-- Pricing Card -->
+  <div class="pricing">
+    <h2>🚀 Unlock All Features</h2>
+    <div class="price">$9.9 <small>one-time</small></div>
+    <ul>
+      <li>✅ Unlimited exports</li>
+      <li>✅ Markdown + Word + PDF</li>
+      <li>✅ All platforms (ChatGPT, Claude, DeepSeek, Gemini)</li>
+      <li>✅ Lifetime updates</li>
+    </ul>
+    <a href="https://yourstore.lemonsqueezy.com/checkout/buy/your-product-id" target="_blank">
+      <button class="btn">🔓 Purchase License Key</button>
+    </a>
+    <p style="margin-top:8px;font-size:12px;opacity:0.8;">Or try free: 5 exports included</p>
+  </div>
+
+  <!-- License -->
+  <div class="card">
+    <h2>🔑 License Key</h2>
+    <div id="status-area"></div>
+    <label for="license-key">Enter your license key</label>
+    <input type="text" id="license-key" placeholder="XXXX-XXXX-XXXX-XXXX" autocomplete="off">
+    <div class="btn-group">
+      <button class="btn btn-primary" id="activate-btn">✅ Activate</button>
+      <button class="btn btn-secondary" id="clear-btn">🗑️ Clear</button>
+    </div>
+    <div id="msg-area"></div>
+  </div>
+
+  <!-- Stats -->
+  <div class="card">
+    <h2>📊 Usage</h2>
+    <div id="stats-area">
+      <p style="color:#6e6e73;">Loading...</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>AI Export Assistant v1.0</p>
+  </div>
+</div>
+
+<script src="../lib/license.js"></script>
+<script>
+(async function() {
+  const statusArea = document.getElementById('status-area');
+  const msgArea = document.getElementById('msg-area');
+  const statsArea = document.getElementById('stats-area');
+  const licenseInput = document.getElementById('license-key');
+  const activateBtn = document.getElementById('activate-btn');
+  const clearBtn = document.getElementById('clear-btn');
+
+  async function refresh() {
+    // License status
+    const status = await window.AIExport.getLicenseStatus();
+    if (status.licensed) {
+      statusArea.innerHTML = '<div class="status status-licensed">🔓 Full version activated</div>';
+    } else {
+      statusArea.innerHTML = `<div class="status status-trial">⚡ Trial: ${status.remaining}/${status.maxFree} exports remaining</div>`;
+    }
+
+    // Stats
+    statsArea.innerHTML = `
+      <p>📄 Total exports: <strong>${status.exportCount}</strong></p>
+      <p>🎯 Free limit: <strong>${status.maxFree}</strong></p>
+      <p>💡 Remaining: <strong>${status.remaining}</strong></p>
+    `;
+
+    // Load stored key
+    const stored = await chrome.storage.local.get(['licenseKey']);
+    if (stored.licenseKey) {
+      licenseInput.value = stored.licenseKey;
+    }
+  }
+
+  function showMsg(text, type) {
+    msgArea.innerHTML = `<div class="msg msg-${type}">${text}</div>`;
+    setTimeout(() => msgArea.innerHTML = '', 5000);
+  }
+
+  activateBtn.addEventListener('click', async () => {
+    const key = licenseInput.value.trim();
+    if (!key) { showMsg('Please enter a license key.', 'error'); return; }
+    activateBtn.disabled = true;
+    activateBtn.textContent = '⏳ Verifying...';
+    const result = await window.AIExport.verifyLicense(key);
+    activateBtn.disabled = false;
+    activateBtn.textContent = '✅ Activate';
+    if (result.success) {
+      showMsg(result.offline ? '✅ License verified (offline mode).' : '✅ License activated successfully!', 'success');
+      await refresh();
+    } else {
+      showMsg('❌ ' + (result.error || 'Verification failed.'), 'error');
+    }
+  });
+
+  clearBtn.addEventListener('click', async () => {
+    await window.AIExport.deactivateLicense();
+    licenseInput.value = '';
+    showMsg('🗑️ License cleared.', 'info');
+    await refresh();
+  });
+
+  await refresh();
+})();
+</script>
+</body>
+</html>

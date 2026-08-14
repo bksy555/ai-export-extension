@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Export Assistant</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1><span class="logo">📄</span> AI Export Assistant</h1>
+    </header>
+
+    <!-- Loading state -->
+    <div id="loading" class="state">
+      <div class="spinner"></div>
+      <p>Detecting conversation...</p>
+    </div>
+
+    <!-- Error state -->
+    <div id="error" class="state" style="display:none">
+      <div class="error-icon">⚠️</div>
+      <p id="error-message">Unable to detect the conversation.</p>
+      <button id="retry-btn" class="btn btn-secondary">🔄 Retry</button>
+      <button id="manual-btn" class="btn btn-secondary" style="margin-top:6px;">✋ Manual Select</button>
+      <button id="debug-btn" class="btn btn-link" style="margin-top:6px;font-size:11px;">🔍 Debug</button>
+    </div>
+
+    <!-- Success state -->
+    <div id="success" class="state" style="display:none">
+      <div class="platform-badge">
+        <span id="platform-icon">🤖</span>
+        <span id="platform-name">ChatGPT</span>
+      </div>
+      <div class="message-count">
+        <span id="msg-count">0</span> messages detected
+      </div>
+
+      <!-- Preview -->
+      <div id="preview" class="preview-box">
+        <div id="preview-content">Loading...</div>
+      </div>
+
+      <!-- Export buttons -->
+      <div class="export-actions">
+        <button class="btn btn-export" data-format="markdown">
+          <span class="btn-icon">📝</span> Markdown
+        </button>
+        <button class="btn btn-export" data-format="word">
+          <span class="btn-icon">📄</span> Word
+        </button>
+        <button class="btn btn-export" data-format="pdf">
+          <span class="btn-icon">📕</span> PDF
+        </button>
+      </div>
+
+      <!-- Template selector -->
+      <div class="template-selector">
+        <label>Style:</label>
+        <select id="template-select">
+          <option value="simple">✨ Simple</option>
+          <option value="detailed" selected>📋 Detailed</option>
+          <option value="code">💻 Code-friendly</option>
+        </select>
+      </div>
+
+      <div class="copy-action">
+        <button id="copy-btn" class="btn btn-secondary">📋 Copy All</button>
+      </div>
+
+      <!-- License info -->
+      <div id="license-info" class="license-bar">
+        <span id="trial-info">⚡ Free: 5 exports remaining</span>
+        <button id="unlock-btn" class="btn btn-link">Unlock Full →</button>
+      </div>
+    </div>
+  </div>
+  <script src="../lib/markdown.js"></script>
+  <script src="../lib/word-export.js"></script>
+  <script src="../lib/pdf-export.js"></script>
+  <script src="../lib/license.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

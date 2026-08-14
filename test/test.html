@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Export Assistant — Test Page</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    background: #f5f5f7;
+    color: #1d1d1f;
+    padding: 40px 20px;
+  }
+  .container { max-width: 800px; margin: 0 auto; }
+  h1 { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+  .subtitle { color: #6e6e73; margin-bottom: 24px; }
+  .tabs { display: flex; gap: 4px; margin-bottom: 24px; flex-wrap: wrap; }
+  .tab {
+    padding: 8px 20px; border-radius: 8px 8px 0 0;
+    background: #e8e8ed; cursor: pointer; font-size: 13px; font-weight: 500;
+    border: 1px solid #d2d2d7; border-bottom: none; transition: all 0.2s;
+  }
+  .tab:hover { background: #ddd; }
+  .tab.active { background: #fff; color: #0071e3; border-bottom-color: #fff; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  .instructions {
+    background: #e8f5e9; border: 1px solid #a5d6a7; border-radius: 8px;
+    padding: 12px 16px; margin-bottom: 20px; font-size: 13px; color: #2e7d32;
+  }
+  .conversation {
+    background: #fff; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+  .msg { padding: 16px 20px; border-bottom: 1px solid #f0f0f0; }
+  .msg:last-child { border-bottom: none; }
+  .msg-header { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .msg-user .msg-header { color: #0071e3; }
+  .msg-assistant .msg-header { color: #34c759; }
+  .msg-body { font-size: 14px; line-height: 1.6; white-space: pre-wrap; }
+  .msg-body code { background: #f0f0f0; padding: 1px 4px; border-radius: 3px; font-size: 13px; }
+  .msg-body pre { background: #f5f5f7; padding: 12px; border-radius: 6px; overflow-x: auto; margin: 8px 0; }
+  .status-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 16px; padding: 10px 16px;
+    background: #fff; border-radius: 8px; border: 1px solid #d2d2d7;
+    font-size: 13px;
+  }
+  .status-bar .btn {
+    padding: 6px 16px; border-radius: 6px; border: none;
+    background: #0071e3; color: #fff; font-size: 12px; font-weight: 500;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .status-bar .btn:hover { background: #0062c4; }
+  .status-bar .btn:active { transform: scale(0.97); }
+  .footer { text-align: center; margin-top: 24px; font-size: 12px; color: #6e6e73; }
+  .badge { display: inline-block; background: #0071e3; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-left: 4px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🧪 AI Export Assistant — Test Page</h1>
+  <p class="subtitle">Simulates AI conversation DOM structures. Use this to test the extension without logging into any AI platform.</p>
+
+  <div class="instructions">
+    <strong>📋 How to test:</strong>
+    1. Click the extension icon 🚀 in the toolbar<br>
+    2. The popup should detect the conversation below<br>
+    3. Try exporting as Markdown / Word / PDF
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="chatgpt">🤖 ChatGPT</div>
+    <div class="tab" data-tab="claude">🟣 Claude</div>
+    <div class="tab" data-tab="deepseek">🔵 DeepSeek</div>
+    <div class="tab" data-tab="gemini">✨ Gemini</div>
+    <div class="tab" data-tab="universal">🌐 Universal</div>
+  </div>
+
+  <!-- ChatGPT -->
+  <div class="tab-content active" id="tab-chatgpt">
+    <div class="conversation" data-testid="conversation-turn-1" data-message-author-role="user">
+      <div class="msg msg-user">
+        <div class="msg-header">You</div>
+        <div class="msg-body">Explain quantum computing in simple terms.</div>
+      </div>
+    </div>
+    <div class="conversation" data-testid="conversation-turn-2" data-message-author-role="assistant">
+      <div class="msg msg-assistant">
+        <div class="msg-header">AI</div>
+        <div class="msg-body">Think of a regular computer bit as a light switch — it's either ON (1) or OFF (0). A quantum bit (qubit) is like a dimmer switch — it can be ON, OFF, or anything in between at the same time. This "superposition" lets quantum computers explore many possibilities at once.
+
+For example, if you're searching for a book in a library:
+- **Classical**: Check each shelf one by one
+- **Quantum**: Check all shelves simultaneously
+
+This makes quantum computers potentially much faster for certain problems like cryptography, drug discovery, and optimization.</div>
+      </div>
+    </div>
+    <div class="conversation" data-testid="conversation-turn-3" data-message-author-role="user">
+      <div class="msg msg-user">
+        <div class="msg-header">You</div>
+        <div class="msg-body">Can you give me a simple Python code example of a quantum circuit?</div>
+      </div>
+    </div>
+    <div class="conversation" data-testid="conversation-turn-4" data-message-author-role="assistant">
+      <div class="msg msg-assistant">
+        <div class="msg-header">AI</div>
+        <div class="msg-body">Here's a simple example using Qiskit (IBM's quantum computing framework):
+
+```python
+from qiskit import QuantumCircuit, Aer, execute
+
+# Create a quantum circuit with 2 qubits
+qc = QuantumCircuit(2, 2)
+
+# Apply Hadamard gate to create superposition
+qc.h(0)
+
+# Apply CNOT gate for entanglement
+qc.cx(0, 1)
+
+# Measure both qubits
+qc.measure([0, 1], [0, 1])
+
+# Simulate
+backend = Aer.get_backend('qasm_simulator')
+result = execute(qc, backend, shots=1024).result()
+counts = result.get_counts()
+print(counts)  # Output: {'00': ~512, '11': ~512}
+```
+
+This creates an entangled state where measuring one qubit instantly determines the state of the other — even if they're light-years apart! This is called "quantum entanglement."</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Claude -->
+  <div class="tab-content" id="tab-claude">
+    <div class="conversation">
+      <div class="msg msg-user" data-testid="user-message">
+        <div class="msg-header">You</div>
+        <div class="msg-body">What's the best way to learn a new programming language?</div>
+      </div>
+      <div class="msg msg-assistant" data-testid="assistant-message">
+        <div class="msg-header">Claude</div>
+        <div class="msg-body">Here's my recommended approach:
+
+1. **Start with the basics** — variables, loops, functions (1-2 days)
+2. **Build a small project** — a calculator, todo app, or CLI tool (3-5 days)
+3. **Read good code** — study open-source projects on GitHub
+4. **Teach others** — explain concepts to reinforce learning
+
+The key is to **build something real** as quickly as possible. Don't get stuck in tutorial hell!
+
+> "The best way to learn is to do." — Richard Hamming</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DeepSeek -->
+  <div class="tab-content" id="tab-deepseek">
+    <div class="conversation">
+      <div class="msg msg-user" data-role="user">
+        <div class="msg-header">You</div>
+        <div class="msg-body">Write a bash script to rename all .jpg files to include date taken from EXIF data.</div>
+      </div>
+      <div class="msg msg-assistant" data-role="assistant">
+        <div class="msg-header">DeepSeek</div>
+        <div class="msg-body">Here's the script:
+
+```bash
+#!/bin/bash
+for file in *.jpg; do
+    date=$(exiftool -d "%Y%m%d_%H%M%S" -DateTimeOriginal "$file" 2>/dev/null)
+    if [ -n "$date" ]; then
+        mv "$file" "${date}_${file}"
+        echo "Renamed: $file → ${date}_${file}"
+    else
+        echo "No EXIF date found: $file"
+    fi
+done
+```
+
+Usage: Save as `rename-by-date.sh`, run `chmod +x rename-by-date.sh && ./rename-by-date.sh`</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gemini -->
+  <div class="tab-content" id="tab-gemini">
+    <div class="conversation">
+      <div class="msg msg-user query-text">
+        <div class="msg-header">You</div>
+        <div class="msg-body">What are the main differences between REST and GraphQL?</div>
+      </div>
+      <div class="msg msg-assistant response-text">
+        <div class="msg-header">Gemini</div>
+        <div class="msg-body">| Feature | REST | GraphQL |
+|---------|------|---------|
+| Data fetching | Multiple endpoints, fixed structure | Single endpoint, query only what you need |
+| Over-fetching | Common | Avoided |
+| Under-fetching | Common (requires multiple requests) | Avoided |
+| Versioning | URL-based (/v1/, /v2/) | Schema-based |
+| Caching | Built-in (HTTP cache) | Requires custom setup |
+| Learning curve | Low | Medium |
+
+**When to use REST:** Simple CRUD apps, public APIs, when caching is critical
+**When to use GraphQL:** Complex data requirements, mobile apps, rapid prototyping</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Universal -->
+  <div class="tab-content" id="tab-universal">
+    <div class="conversation">
+      <div class="msg msg-user" role="user">
+        <div class="msg-header">You</div>
+        <div class="msg-body">What's the best way to optimize a slow SQL query?</div>
+      </div>
+      <div class="msg msg-assistant" role="assistant">
+        <div class="msg-header">AI</div>
+        <div class="msg-body">Here's a systematic approach to optimize slow SQL queries:
+
+1. **Use EXPLAIN** — `EXPLAIN ANALYZE SELECT ...` shows query execution plan
+2. **Check indexes** — missing indexes are the #1 cause of slow queries
+3. **Avoid SELECT *** — only fetch columns you actually need
+4. **Use LIMIT** — pagination prevents huge result sets
+5. **Optimize JOINs** — ensure joined columns are indexed
+6. **Consider materialized views** — for complex aggregations
+7. **Partition large tables** — splits data into manageable chunks
+
+**Quick fix:** Add an index on the WHERE clause columns:
+```sql
+CREATE INDEX idx_users_email ON users(email);
+```</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="status-bar">
+    <span>✅ <strong>Ready</strong> — Click the extension icon to test</span>
+    <button class="btn" onclick="location.reload()">🔄 Reset</button>
+  </div>
+
+  <div class="footer">
+    <p>AI Export Assistant — Built-in Test Page v1.0</p>
+    <p style="margin-top:4px;">This page simulates DOM structures of popular AI platforms for testing purposes.</p>
+  </div>
+</div>
+
+<script>
+// Tab switching
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
