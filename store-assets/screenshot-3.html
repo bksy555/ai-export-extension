@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>AI Export Assistant — Store Screenshot 3 (Export Result)</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:-apple-system,'Segoe UI','Helvetica Neue',Arial,sans-serif; background:#1e1e2e; display:flex; align-items:center; justify-content:center; min-height:100vh; overflow:hidden; }
+  .scene { display:flex; gap:48px; align-items:center; }
+  /* Left: fake browser showing conversation */
+  .browser { width:560px; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,.45); flex-shrink:0; }
+  .browser-bar { background:#f1f3f5; padding:10px 14px; display:flex; gap:6px; align-items:center; }
+  .dot { width:11px; height:11px; border-radius:50%; display:inline-block; }
+  .dot.r{background:#ff5f57}.dot.y{background:#febc2e}.dot.g{background:#28c840}
+  .addr { flex:1; margin-left:10px; background:#e9ecef; border-radius:6px; padding:4px 10px; font-size:11px; color:#495057; }
+  .browser-body { height:330px; padding:18px; background:#fff; }
+  .bubble { border-radius:10px; padding:10px 14px; margin-bottom:8px; max-width:85%; line-height:1.5; font-size:11px; }
+  .bubble.u { background:#e7f1ff; margin-left:auto; border-bottom-right-radius:2px; }
+  .bubble.a { background:#f1f3f5; border-bottom-left-radius:2px; }
+  .bubble small { display:block; font-weight:700; margin-bottom:2px; opacity:.6; }
+  /* Right: exported document mock */
+  .doc {
+    width:560px; background:#fff; border-radius:12px; overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,.5); border:1px solid #e9ecef; flex-shrink:0;
+  }
+  .doc-bar { background:#f8f9fa; border-bottom:1px solid #e9ecef; padding:10px 16px; display:flex; align-items:center; gap:10px; font-size:12px; color:#495057; }
+  .doc-badge { background:#eef2ff; color:#4f46e5; font-size:10px; font-weight:800; padding:3px 9px; border-radius:5px; }
+  .doc-title { font-weight:700; }
+  .doc-body { padding:24px 28px; font-size:12px; color:#1d1d1f; line-height:1.6; max-height:330px; overflow:hidden; }
+  .doc-body h1 { font-size:17px; margin-bottom:8px; color:#111827; }
+  .doc-body h2 { font-size:13px; color:#6366f1; margin:12px 0 4px; text-transform:uppercase; letter-spacing:.4px; }
+  .doc-body .msg { margin-bottom:10px; }
+  .doc-body .who { font-weight:700; color:#6b7280; font-size:11px; }
+  .doc-body code { background:#f3f4f6; padding:1px 4px; border-radius:3px; font-size:11px; }
+  .doc-body pre { background:#f8f9fa; border:1px solid #e9ecef; border-radius:6px; padding:10px; margin:6px 0; font-size:10.5px; overflow-x:hidden; }
+  .tag { display:inline-block; background:#d1fae5; color:#065f46; font-size:10px; font-weight:700; padding:2px 8px; border-radius:4px; margin-bottom:8px; }
+</style>
+</head>
+<body>
+<div class="scene">
+  <!-- Left: browser -->
+  <div class="browser">
+    <div class="browser-bar">
+      <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+      <span class="addr">🔒 claude.ai</span>
+    </div>
+    <div class="browser-body">
+      <div class="bubble u"><small>You</small>Best way to learn a new language?</div>
+      <div class="bubble a"><small>Claude</small>1) Start with basics — variables, loops, functions.<br>2) Build a small project (calculator, todo app).<br>3) Read good open-source code on GitHub.<br>4) Teach others to reinforce learning.</div>
+      <div class="bubble u"><small>You</small>Write a bash script to rename .jpg files by EXIF date?</div>
+      <div class="bubble a"><small>Claude</small>Here's the script:<br><code>#!/bin/bash</code> ... <small style="display:block;margin-top:7px;">Use: chmod +x rename-by-date.sh && ./rename-by-date.sh</small></div>
+    </div>
+  </div>
+
+  <!-- Right: exported doc -->
+  <div class="doc">
+    <div class="doc-bar">
+      <span class="doc-badge">📄 WORD</span>
+      <span class="doc-title">claude-conversation-1786658431219.doc</span>
+    </div>
+    <div class="doc-body">
+      <span class="tag">✅ Exported with AI Export Assistant</span>
+      <h1>AI Conversation Export</h1>
+      <div class="msg">
+        <span class="who">👤 You</span><br>
+        Best way to learn a new language?
+      </div>
+      <div class="msg">
+        <span class="who">🤖 Claude</span><br>
+        1) Start with basics — variables, loops, functions.<br>
+        2) Build a small project (calculator, todo app).<br>
+        3) Read good open-source code on GitHub.<br>
+        4) Teach others to reinforce learning.
+      </div>
+      <div class="msg">
+        <span class="who">👤 You</span><br>
+        Write a bash script to rename .jpg files by EXIF date?
+      </div>
+      <div class="msg">
+        <span class="who">🤖 Claude</span><br>
+        Here's the script:
+        <pre>#!/bin/bash
+for file in *.jpg; do
+  date=$(exiftool -d "%Y%m%d" \
+    -DateTimeOriginal "$file")
+  mv "$file" "${date}_${file}"
+done</pre>
+        Use: chmod +x rename-by-date.sh &amp;&amp; ./rename-by-date.sh
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

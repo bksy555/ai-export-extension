@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>AI Export Assistant — Store Screenshot 2 (License)</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:-apple-system,'Segoe UI','Helvetica Neue',Arial,sans-serif; background:#1e1e2e; display:flex; align-items:center; justify-content:center; min-height:100vh; overflow:hidden; }
+  .scene { display:flex; gap:48px; align-items:center; }
+  /* Left: options page mock */
+  .panel { width:400px; background:#fff; border-radius:14px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,.5); border:1px solid #e9ecef; flex-shrink:0; }
+  .panel-head { background:linear-gradient(135deg,#6366f1,#8b5cf6); color:#fff; padding:18px; font-size:16px; font-weight:700; }
+  .panel-body { padding:18px; }
+  .price-row { display:flex; align-items:baseline; gap:6px; margin-bottom:14px; }
+  .price { font-size:34px; font-weight:800; color:#1d1d1f; }
+  .price small { font-size:14px; color:#868e96; font-weight:400; }
+  .perk { display:flex; align-items:center; gap:8px; font-size:13px; color:#343a40; padding:7px 0; }
+  .perk .ck { width:20px; height:20px; border-radius:50%; background:#e8f5e9; color:#2e7d32; display:flex; align-items:center; justify-content:center; font-size:12px; }
+  .btn-primary { width:100%; background:linear-gradient(135deg,#6366f1,#8b5cf6); color:#fff; border:none; border-radius:10px; padding:13px; font-size:14px; font-weight:700; cursor:pointer; margin-top:14px; }
+  .license-sec { margin-top:20px; border-top:1px solid #eee; padding-top:16px; }
+  .license-sec h3 { font-size:13px; color:#495057; margin-bottom:10px; }
+  .key-input { width:100%; border:1px solid #d2d2d7; border-radius:9px; padding:10px 12px; font-size:13px; font-family:monospace; }
+  .activate { display:inline-block; margin-top:8px; background:#f1f5f9; color:#4f46e5; border:1px solid #c7d2fe; padding:7px 18px; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer; }
+  /* Right: activated state */
+  .panel2 { width:400px; background:#fff; border-radius:14px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,.5); border:1px solid #e9ecef; flex-shrink:0; }
+  .panel2-head { background:linear-gradient(135deg,#10b981,#059669); color:#fff; padding:18px; font-size:16px; font-weight:700; }
+  .panel2-body { padding:18px; text-align:center; }
+  .big-check { width:76px; height:76px; border-radius:50%; background:#e8f5e9; color:#10b981; font-size:38px; display:flex; align-items:center; justify-content:center; margin:10px auto 12px; }
+  .activated-txt { font-size:17px; font-weight:800; color:#1d1d1f; }
+  .sub-txt { font-size:12.5px; color:#868e96; margin-top:6px; line-height:1.5; }
+  .key-display { background:#f8f9fa; border:1px dashed #c7d2fe; border-radius:9px; padding:10px; font-family:monospace; font-size:12px; color:#4f46e5; margin-top:14px; word-break:break-all; }
+  .unlimited { display:flex; gap:12px; justify-content:center; margin-top:16px; }
+  .chip { background:#f1f5f9; color:#475569; font-size:11px; font-weight:700; padding:6px 12px; border-radius:20px; }
+  .label { position:absolute; width:1px; height:1px; opacity:0; }
+</style>
+</head>
+<body>
+<div class="scene">
+  <!-- Left: activation page -->
+  <div class="panel">
+    <div class="panel-head">🚀 Unlock All Features</div>
+    <div class="panel-body">
+      <div class="price-row"><span class="price">$9.9</span> <small>one-time</small></div>
+      <div class="perk"><span class="ck">✓</span> Unlimited exports</div>
+      <div class="perk"><span class="ck">✓</span> Markdown + Word + PDF</div>
+      <div class="perk"><span class="ck">✓</span> All platforms (ChatGPT, Claude, DeepSeek, Gemini)</div>
+      <div class="perk"><span class="ck">✓</span> Lifetime updates</div>
+      <div class="license-sec">
+        <h3>🔑 License Key</h3>
+        <input class="key-input" placeholder="Paste your license key e.g. XXXX-XXXX-XXXX" value="">
+        <div><span class="activate">Activate</span></div>
+      </div>
+      <div class="btn-primary">🔓 Purchase License Key →</div>
+    </div>
+  </div>
+
+  <!-- Right: activated state -->
+  <div class="panel2">
+    <div class="panel2-head">✅ Full Version</div>
+    <div class="panel2-body">
+      <div class="big-check">✓</div>
+      <div class="activated-txt">License Activated!</div>
+      <div class="sub-txt">AI Export Assistant is now unlocked.<br>Enjoy unlimited exports.</div>
+      <div class="key-display">GM-8F2K-QWER-9XZ4-A7PL</div>
+      <div class="unlimited">
+        <span class="chip">∞ Unlimited</span>
+        <span class="chip">📝 3 Formats</span>
+        <span class="chip">🔒 Private</span>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

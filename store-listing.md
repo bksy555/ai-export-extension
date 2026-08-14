@@ -69,17 +69,23 @@ AI Export Assistant 让你一键保存 ChatGPT、Claude、DeepSeek、Gemini 等 
 
 ## 截图
 
-### 截图 1: Popup (1280x800)
-显示弹出窗口预览对话，展示 Markdown/Word/PDF 三个导出按钮。
+> 📦 实际生成并可用于上传的截图位于 `dist/`（均为 1280x900，满足 Chrome Web Store 至少 1280x800 的要求）：
 
-### 截图 2: Manual Selection (1280x800)
-显示手动选择模式，工具栏悬浮在页面上，用户点击选择对话元素。
+### 截图 1: Export UI — `dist/screenshot-1-export-ui.png`
+左侧为 ChatGPT 对话页面，右侧为扩展弹窗：平台检测（ChatGPT, 12 messages detected）、对话预览、Markdown/Word/PDF 三个导出按钮、试用额度条。
 
-### 截图 3: Options Page (1280x800)
-显示设置页面，包含 License Key 输入框和购买入口。
+### 截图 2: License / Unlock — `dist/screenshot-2-license.png`
+左侧为解锁页（$9.9 一次性、License Key 输入框、购买按钮），右侧为激活成功状态（✅ License Activated、密钥展示、无限导出徽章）。
 
-### 截图 4: Word Export Result (1280x800)
-显示导出的 Word 文档效果，展示对话格式化后的样式。
+### 截图 3: Word Export Result — `dist/screenshot-3-word-result.png`
+左侧为 Claude 对话页面，右侧为导出的 Word 文档预览（claude-conversation-*.doc），展示格式化后的对话内容与代码块。
+
+> 🔧 截图源 HTML（可修改后重新生成）：`store-assets/screenshot-1.html`、`screenshot-2.html`、`screenshot-3.html`
+
+## 打包文件
+
+- **上传包**: `dist/ai-export-assistant-v1.1.0.zip`（约 27KB，18 个文件）
+- 重新打包: `bash scripts/package.sh`
 
 ## 小图标
 

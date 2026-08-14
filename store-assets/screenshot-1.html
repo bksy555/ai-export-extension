@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>AI Export Assistant — Store Screenshot 1</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:-apple-system,'Segoe UI','Helvetica Neue',Arial,sans-serif; background:#1e1e2e; display:flex; align-items:center; justify-content:center; min-height:100vh; overflow:hidden; }
+  .scene { display:flex; gap:48px; align-items:center; }
+  /* Fake browser window */
+  .browser {
+    width:640px; background:#fff; border-radius:12px; overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,.45); flex-shrink:0;
+  }
+  .browser-bar { background:#f1f3f5; padding:10px 14px; display:flex; gap:6px; align-items:center; }
+  .dot { width:11px; height:11px; border-radius:50%; display:inline-block; }
+  .dot.r{background:#ff5f57}.dot.y{background:#febc2e}.dot.g{background:#28c840}
+  .addr { flex:1; margin-left:10px; background:#e9ecef; border-radius:6px; padding:4px 10px; font-size:11px; color:#495057; }
+  .browser-body { height:370px; padding:18px; background:#fff; }
+  /* AI conversation mock */
+  .conv { font-size:11px; }
+  .bubble { border-radius:10px; padding:10px 14px; margin-bottom:8px; max-width:85%; line-height:1.5; }
+  .bubble.u { background:#e7f1ff; margin-left:auto; border-bottom-right-radius:2px; }
+  .bubble.a { background:#f1f3f5; border-bottom-left-radius:2px; }
+  .bubble small { display:block; font-weight:700; margin-bottom:2px; opacity:.6; }
+  .bubble code { background:rgba(0,0,0,.06); padding:1px 4px; border-radius:3px; font-size:10px; }
+  /* Extension popup mock */
+  .popup {
+    width:340px; background:#fff; border-radius:14px; overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,.5); border:1px solid #e9ecef; flex-shrink:0;
+  }
+  .popup-head { background:linear-gradient(135deg,#6366f1,#8b5cf6); color:#fff; padding:16px; font-size:15px; font-weight:700; display:flex; align-items:center; gap:8px; }
+  .popup-body { padding:14px; }
+  .platform { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+  .p-badge { background:#eef2ff; color:#4f46e5; font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; }
+  .count { font-size:11px; color:#868e96; }
+  .preview-box { background:#f8f9fa; border:1px solid #e9ecef; border-radius:10px; padding:10px; height:92px; overflow:hidden; font-size:10.5px; color:#495057; line-height:1.5; }
+  .preview-box b { color:#343a40; }
+  .exports { display:flex; gap:8px; margin-top:12px; }
+  .ex-btn { flex:1; border:none; border-radius:9px; padding:9px 0; font-size:11px; font-weight:700; color:#fff; cursor:pointer; text-align:center; }
+  .ex-btn.md{background:#6366f1}.ex-btn.word{background:#4f46e5}.ex-btn.pdf{background:#7c3aed}
+  .license { margin-top:12px; background:#f1f5f9; border-radius:9px; padding:8px 10px; display:flex; justify-content:space-between; align-items:center; font-size:10.5px; color:#64748b; }
+  .unlock { color:#4f46e5; font-weight:700; font-size:10.5px; cursor:pointer; }
+  .checkbox { position:absolute; width:1px; height:1px; opacity:0; }
+</style>
+</head>
+<body>
+<div class="scene">
+  <!-- Left: browser window with AI chat -->
+  <div class="browser">
+    <div class="browser-bar">
+      <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+      <span class="addr">🔒 chatgpt.com</span>
+    </div>
+    <div class="browser-body">
+      <div class="conv">
+        <div class="bubble u"><small>You</small>Explain quantum computing in simple terms.</div>
+        <div class="bubble a"><small>ChatGPT</small>Think of a qubit like a dimmer switch — it can be ON, OFF, or anything in between at once. This superposition lets quantum computers explore many possibilities simultaneously...</div>
+        <div class="bubble u"><small>You</small>Can you give me a simple Python example?</div>
+        <div class="bubble a"><small>ChatGPT</small>Sure! <code>from qiskit import QuantumCircuit</code> ... <br><br>This creates an entangled state where measuring one qubit instantly determines the other — even light-years apart! 🔗</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right: extension popup -->
+  <div class="popup">
+    <div class="popup-head">📄 AI Export Assistant</div>
+    <div class="popup-body">
+      <div class="platform">
+        <span class="p-badge">🤖 ChatGPT</span>
+        <span class="count">12 messages detected</span>
+      </div>
+      <div class="preview-box">
+        <b>You:</b> Explain quantum computing in simple terms.<br>
+        <b>AI:</b> Think of a qubit like a dimmer switch — superposition lets quantum computers explore many possibilities at once...<br>
+        <b>You:</b> Can you give me a simple Python example?<br>
+        <b>AI:</b> Sure! from qiskit import QuantumCircuit...
+      </div>
+      <div class="exports">
+        <div class="ex-btn md">📝 Markdown</div>
+        <div class="ex-btn word">📄 Word</div>
+        <div class="ex-btn pdf">📕 PDF</div>
+      </div>
+      <div class="license">
+        <span>⚡ Free: 5 exports remaining</span>
+        <span class="unlock">Unlock Full →</span>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

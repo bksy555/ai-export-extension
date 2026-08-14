@@ -1,10 +1,10 @@
 {
   "name": "ai-export-assistant",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "One-click export AI conversations to Markdown, Word & PDF",
   "private": true,
   "scripts": {
-    "package": "mkdir -p dist && zip -r dist/ai-export-assistant-v1.0.zip . -x '*.git*' 'node_modules/*' 'dist/*' '.DS_Store'",
+    "package": "bash scripts/package.sh",
     "lint": "echo 'No linter configured yet'"
   },
   "keywords": [
@@ -17,6 +17,6 @@
   "license": "Proprietary",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/ai-export-assistant"
+    "url": "https://github.com/bksy555/ai-export-extension"
   }
 }
